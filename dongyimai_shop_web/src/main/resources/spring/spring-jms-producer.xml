@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://192.168.188.129:61616"/>
+    </bean>
+
+    <bean id="jmsConnectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="targetConnectionFactory" ref="targetConnectionFactory"></property>
+    </bean>
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="jmsConnectionFactory"/>
+    </bean>
+
+    <bean id="solrDeleteQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="queue_del"/>
+    </bean>
+    <bean id="pageDeleteTopic" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="topic_del"/>
+    </bean>
+</beans>
